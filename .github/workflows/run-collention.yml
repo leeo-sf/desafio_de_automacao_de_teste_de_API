@@ -25,7 +25,5 @@ jobs:
         run: |
           npm install
 
-      - name: Run Postman collection
-        run: |
-          chmod +x ./run-test.sh
-          ./run-test.sh
+      - name: Run Collection
+        run: newman run ./"Desafio Banco Carrefour.postman_collection.json" -e ./"Desafio_CSF.postman_environment.json"
