@@ -1,26 +1,37 @@
 # Desafio de Automação de Teste de API
 
-Este repositório tem como objetivo a validação da API (https://serverest.dev/#/) RESTfull de usuários. Abaixo há mais detalhes da cobertura dos testes realizados.
+Este repositório tem como objetivo a validação da API (https://serverest.dev/#/) RESTfull de usuários, login e em partes produtos. Abaixo há mais detalhes da cobertura dos testes realizados.
 
-<h3>Formas de executar o teste 📝 </h3>
+<h2>Pré requisitos </h2>
+
+- Node.js (Se usar a Opção 1).
+- Postman (Se usar a Opção 2).
+
+<h2>Opções de execuções 📝 </h2>
 
 *Para executar os testes, siga uma das instuções abaixo.* <br>
 
 *Primeiramente, execute o comando `git clone https://github.com/leeo-sf/desafio_de_automacao_de_teste_de_API` no terminal em uma pasta de sua preferência.*
 
-- Opção 1 - Executar pelo terminal
-  - *Necessário ter o node instalado.*
+- Opção 1 - Executar pela linha de comando
+  - *Navegue até o diretório `cd desafio_de_automacao_de_teste_de_API`*
   - Através do terminal, acesse a pasta onde o projeto foi clonado.
-  - Execute o comando `npm install -g newman`. Para execução do teste.
-  - Execute o comando `npm install -g newman-reporter-htmlextra`. Para geração do relatório.
-  - Agora basta executar o comando `newman run ./"Desafio Banco Carrefour.postman_collection.json" -e ./"Desafio_CSF.postman_environment.json" -r cli,htmlextra --reporter-htmlextra-export testArtifacts/report.html`.
+  - Caso não tenha o newman instalado em sua máquina, execute o comando `npm install -g newman` (Utilizado para executar o teste).
+  - Caso não tenha o newman-reporter-htmlextra instalado em sua máquina, execute o comando `npm install -g newman-reporter-htmlextra` (Utilizado para geração do relatório HTML).
+  - Agora, basta executar o comando `newman run ./"Desafio Banco Carrefour.postman_collection.json" -e ./"Desafio_CSF.postman_environment.json" -r cli,htmlextra --reporter-htmlextra-export testArtifacts/report.html`.
     
 - Opção 2 - Executar pelo postman
   - Importe o arquivo *Desafio Banco Carrefour.postman_collection.json* na aba `Collections` no postman.
   - Importe o arquivo *Desafio_CSF.postman_environment.json* na aba `Environments` no postman.
   - Abra a collection no postman e no canto superior direito selecione a environment `Desafio_CSF`.
 
-<h3>Testes implementados </h3>
+<h2>Relatório de execução</h2>
+
+- `Execução local` - Após executar o teste pela Opção 1. Navegue até o diretório do projeto, abra a pasta `testArtifacts` e abra o arquivo `report.html` por um navegador de sua preferência.
+- `Visualizar pela pipeline` - No github dentro do repositório. Navegue até `Actions`, abra o ultimo workflow executado, role a tela até `Artifacts` e faça o download. Na pasta .zip tem um arquivo de extenção .html. Abra-o em um navegador.
+  
+
+<h2>Testes implementados </h2>
 
 - Endpoint de login
   - Cenários felizes
