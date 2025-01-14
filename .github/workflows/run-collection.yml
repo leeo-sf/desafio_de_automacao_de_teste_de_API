@@ -34,7 +34,7 @@ jobs:
         run: newman run ./"Desafio Banco Carrefour.postman_collection.json" -e ./"Desafio_CSF.postman_environment.json" -r cli,htmlextra --reporter-htmlextra-export testArtifacts/report.html
 
       - name: Upload Report as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: testArtifacts
