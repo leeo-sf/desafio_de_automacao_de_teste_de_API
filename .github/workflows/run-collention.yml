@@ -27,5 +27,5 @@ jobs:
 
       - name: Run Postman collection
         run: |
-          chmod +x ./run-test.sh
+          chmod +x run-test.sh
           ./run-test.sh
