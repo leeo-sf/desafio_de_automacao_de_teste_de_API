@@ -7,6 +7,210 @@
 	},
 	"item": [
 		{
+			"name": "Cadastrar usuário",
+			"item": [
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "Cadastro com sucesso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Valida status code 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida campo 'message' presente\", () => {\r",
+											"    pm.expect(json).to.have.property(\"message\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida valor 'Cadastro realizado com sucesso' da mensagem\", () => {\r",
+											"    pm.expect(json.message).to.eql(\"Cadastro realizado com sucesso\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida campo '_id' presente\", () => {\r",
+											"    pm.expect(json).to.have.property(\"_id\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida se _id está preenchido\", () => {\r",
+											"    pm.expect(json._id).to.not.be.empty\r",
+											"    pm.environment.set(\"ID_USUARIO_CADASTRADO\", json._id);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const userToBeCreated = {\r",
+											"    nome: \"Teste desafio CSF\",\r",
+											"    email: \"testando@gmail.com\",\r",
+											"    password: \"senhaTeste\",\r",
+											"    administrador: \"true\"\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"USER\", JSON.stringify(userToBeCreated));\r",
+											"pm.environment.set(\"EMAIL_USUARIO_CADASTRADO\", JSON.stringify(userToBeCreated.email));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{{USER}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/usuarios",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Error",
+					"item": [
+						{
+							"name": "Email já cadastrado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Valida status code 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida mensagem 'Este email já está sendo usado'\", () => {\r",
+											"    pm.expect(json.message).to.eql(\"Este email já está sendo usado\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Teste desafio CSF\",\r\n    \"email\": {{EMAIL_USUARIO_CADASTRADO}},\r\n    \"password\": \"senhaTeste\",\r\n    \"administrador\": \"true\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/usuarios",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Campo Administrador incorreto",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Valida status code 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida mensagem de erro 'administrador deve ser 'true' ou 'false''\", () => {\r",
+											"    pm.expect(json.administrador).to.eql(\"administrador deve ser 'true' ou 'false'\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Teste desafio CSF\",\r\n    \"email\": \"blablabla@teste.com\",\r\n    \"password\": \"senhaTeste\",\r\n    \"administrador\": \"null\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/usuarios",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "Listar usuários cadastrados",
 			"item": [
 				{
@@ -215,7 +419,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}/usuarios/?_id=0uxuPY0cbmQhpEz1",
+									"raw": "{{BASE_URL}}/usuarios/?_id={{ID_USUARIO_CADASTRADO}}",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -226,7 +430,7 @@
 									"query": [
 										{
 											"key": "_id",
-											"value": "0uxuPY0cbmQhpEz1"
+											"value": "{{ID_USUARIO_CADASTRADO}}"
 										}
 									]
 								}
@@ -335,7 +539,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}/usuarios/?email=testeqa@exemplo.com",
+									"raw": "{{BASE_URL}}/usuarios/?email=testando@qa.com.br",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -346,7 +550,7 @@
 									"query": [
 										{
 											"key": "email",
-											"value": "testeqa@exemplo.com"
+											"value": "testando@qa.com.br"
 										}
 									]
 								}
@@ -626,217 +830,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}/usuarios/0uxuPY0cbmQhpEz1",
+									"raw": "{{BASE_URL}}/usuarios/c2kH4hsfBdwem282",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"usuarios",
-										"0uxuPY0cbmQhpEz1"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Cadastrar usuário",
-			"item": [
-				{
-					"name": "Success",
-					"item": [
-						{
-							"name": "Cadastro com sucesso",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 201\", () => {\r",
-											"    pm.response.to.have.status(201);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo 'message' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"message\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida valor 'Cadastro realizado com sucesso' da mensagem\", () => {\r",
-											"    pm.expect(json.message).to.eql(\"Cadastro realizado com sucesso\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo '_id' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"_id\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida se _id está preenchido\", () => {\r",
-											"    pm.expect(json._id).to.not.be.empty\r",
-											"    pm.environment.set(\"ID_USUARIO_CADASTRADO\", json._id);\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"const userToBeCreated = {\r",
-											"    nome: \"Teste desafio CSF\",\r",
-											"    email: \"testando@gmail.com\",\r",
-											"    password: \"senhaTeste\",\r",
-											"    administrador: \"true\"\r",
-											"}\r",
-											"\r",
-											"pm.environment.set(\"USER\", JSON.stringify(userToBeCreated));\r",
-											"pm.environment.set(\"EMAIL_USUARIO_CADASTRADO\", JSON.stringify(userToBeCreated.email));"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{{USER}}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Error",
-					"item": [
-						{
-							"name": "Email já cadastrado",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 400\", () => {\r",
-											"    pm.response.to.have.status(400);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida mensagem 'Este email já está sendo usado'\", () => {\r",
-											"    pm.expect(json.message).to.eql(\"Este email já está sendo usado\");\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nome\": \"Teste desafio CSF\",\r\n    \"email\": {{EMAIL_USUARIO_CADASTRADO}},\r\n    \"password\": \"senhaTeste\",\r\n    \"administrador\": \"true\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Campo Administrador incorreto",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 400\", () => {\r",
-											"    pm.response.to.have.status(400);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida mensagem de erro 'administrador deve ser 'true' ou 'false''\", () => {\r",
-											"    pm.expect(json.administrador).to.eql(\"administrador deve ser 'true' ou 'false'\");\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nome\": \"Teste desafio CSF\",\r\n    \"email\": \"blablabla@teste.com\",\r\n    \"password\": \"senhaTeste\",\r\n    \"administrador\": \"null\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios"
+										"c2kH4hsfBdwem282"
 									]
 								}
 							},
