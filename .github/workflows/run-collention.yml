@@ -23,10 +23,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
 
       - name: Run Collection
-        run: npx newman run ./"Desafio Banco Carrefour.postman_collection.json" -e ./"Desafio_CSF.postman_environment.json" -r htmlextra --reporter-htmlextra-export ./report.html
+        run: newman run ./"Desafio Banco Carrefour.postman_collection.json" -e ./"Desafio_CSF.postman_environment.json" -r htmlextra --reporter-htmlextra-export ./report.html
 
       - name: Upload Report as Artifact
         uses: actions/upload-artifact@v4
