@@ -36,7 +36,7 @@ Este repositório tem como objetivo a validação da API (https://serverest.dev/
 - Endpoint de login
   - Cenários felizes
     - Login com sucesso - Realiza o login com sucesso e recebe o Token JWT gerado. Valida status, mensagem de retorno e token.
-  Cenários de erro
+  - Cenários de erro
     - Login com email inválido - Ao realizar login e informar um endereço de email inválido deve dar erro. Valida status e mensagem de retorno.
     - Login com senha incorreta - Ao realizar login e informar o email correto e a senha incorreta deve dar erro. Valida status e mensagem de retorno.
     - Login com email incorreto - Ao realizar login e informar a senha correta e o email incorreto deve dar erro. Valida status e mensagem de retorno.
