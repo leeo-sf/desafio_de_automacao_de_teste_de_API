@@ -7,281 +7,13 @@
 	},
 	"item": [
 		{
-			"name": "Cadastrar usuário",
-			"item": [
-				{
-					"name": "Success",
-					"item": [
-						{
-							"name": "Cadastro com sucesso",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 201\", () => {\r",
-											"    pm.response.to.have.status(201);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo 'message' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"message\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida valor 'Cadastro realizado com sucesso' da mensagem\", () => {\r",
-											"    pm.expect(json.message).to.eql(\"Cadastro realizado com sucesso\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo '_id' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"_id\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida se _id está preenchido\", () => {\r",
-											"    pm.expect(json._id).to.not.be.empty\r",
-											"    pm.environment.set(\"ID_USUARIO_CADASTRADO\", json._id);\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"const userToBeCreated = {\r",
-											"    nome: \"Teste desafio CSF\",\r",
-											"    email: \"testando@gmail.com\",\r",
-											"    password: \"senhaTeste\",\r",
-											"    administrador: \"true\"\r",
-											"}\r",
-											"\r",
-											"pm.environment.set(\"USER\", JSON.stringify(userToBeCreated));\r",
-											"pm.environment.set(\"EMAIL_USUARIO_CADASTRADO\", JSON.stringify(userToBeCreated.email));"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{{USER}}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Error",
-					"item": [
-						{
-							"name": "Email já cadastrado",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 400\", () => {\r",
-											"    pm.response.to.have.status(400);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida mensagem 'Este email já está sendo usado'\", () => {\r",
-											"    pm.expect(json.message).to.eql(\"Este email já está sendo usado\");\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nome\": \"Teste desafio CSF\",\r\n    \"email\": {{EMAIL_USUARIO_CADASTRADO}},\r\n    \"password\": \"senhaTeste\",\r\n    \"administrador\": \"true\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Campo Administrador incorreto",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 400\", () => {\r",
-											"    pm.response.to.have.status(400);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida mensagem de erro 'administrador deve ser 'true' ou 'false''\", () => {\r",
-											"    pm.expect(json.administrador).to.eql(\"administrador deve ser 'true' ou 'false'\");\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nome\": \"Teste desafio CSF\",\r\n    \"email\": \"blablabla@teste.com\",\r\n    \"password\": \"senhaTeste\",\r\n    \"administrador\": \"null\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Listar usuários cadastrados",
+			"name": "Login",
 			"item": [
 				{
 					"name": "Error",
 					"item": [
 						{
-							"name": "Query incorreta",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 400\", () => {\r",
-											"    pm.response.to.have.status(400);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida mensagem de erro '# não é permitido'\", () => {\r",
-											"    const queries = pm.request.url.query;\r",
-											"    \r",
-											"    queries.each(query => {\r",
-											"        pm.expect(json[query.key]).to.eql(`${query.key} não é permitido`);\r",
-											"    })\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios/?name=10&id=11&passwor=senha&emAil=teste@gmail.com&administador=true",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios",
-										""
-									],
-									"query": [
-										{
-											"key": "name",
-											"value": "10"
-										},
-										{
-											"key": "id",
-											"value": "11"
-										},
-										{
-											"key": "passwor",
-											"value": "senha"
-										},
-										{
-											"key": "emAil",
-											"value": "teste@gmail.com"
-										},
-										{
-											"key": "administador",
-											"value": "true"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Endereço de email inválido",
+							"name": "Login com email inválido",
 							"event": [
 								{
 									"listen": "test",
@@ -303,29 +35,123 @@
 								}
 							],
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"testandoqa.com.br\",\r\n  \"password\": \"senha\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{BASE_URL}}/usuarios/?email=leonardoferreira032gmail.com",
+									"raw": "{{BASE_URL}}/login",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
-										"usuarios",
-										""
-									],
-									"query": [
-										{
-											"key": "email",
-											"value": "leonardoferreira032gmail.com"
-										}
+										"login"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Campo administrador incorreto",
+							"name": "Login com senha incorreta",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Valida status code 401\", () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida mensagem de erro 'Email e/ou senha inválidos'\", () => {\r",
+											"    pm.expect(json.message).to.eql(\"Email e/ou senha inválidos\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"testando@qa.com.br\",\r\n  \"password\": \"senhA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login com email incorreto",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Valida status code 401\", () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida mensagem de erro 'Email e/ou senha inválidos'\", () => {\r",
+											"    pm.expect(json.message).to.eql(\"Email e/ou senha inválidos\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"TestandO@qa.com.br\",\r\n  \"password\": \"senha\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login sem object user no body",
 							"event": [
 								{
 									"listen": "test",
@@ -337,488 +163,20 @@
 											"    pm.response.to.have.status(400);\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Valida mensagem de erro 'administrador deve ser 'true' ou 'false''\", () => {\r",
-											"    pm.expect(json.administrador).to.eql(\"administrador deve ser 'true' ou 'false'\");\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios/?administrador=null",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios",
-										""
-									],
-									"query": [
-										{
-											"key": "administrador",
-											"value": "null"
-										}
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Success",
-					"item": [
-						{
-							"name": "Lista usuário por Id",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 200\", () => {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"quantidade\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida tipo number campo 'quantidade'\", () => {\r",
-											"    pm.expect(json.quantidade).to.be.a(\"number\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida resultado do campo 'quantidade'\", () => {\r",
-											"    pm.expect(json.quantidade).to.eql(1)\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo usuários presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"usuarios\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida tipo array campo 'usuarios'\", () => {\r",
-											"    pm.expect(json.usuarios).to.be.a(\"array\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida se campo 'quantidade' corresponde a qtd de usuários\", () => {\r",
-											"    pm.expect(json.quantidade).to.eql(json.usuarios.length)\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios/?_id={{ID_USUARIO_CADASTRADO}}",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios",
-										""
-									],
-									"query": [
-										{
-											"key": "_id",
-											"value": "{{ID_USUARIO_CADASTRADO}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Lista usuário por nome",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 200\", () => {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"quantidade\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida tipo number campo 'quantidade'\", () => {\r",
-											"    pm.expect(json.quantidade).to.be.a(\"number\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo usuários presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"usuarios\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida tipo array campo 'usuarios'\", () => {\r",
-											"    pm.expect(json.usuarios).to.be.a(\"array\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida se campo 'quantidade' corresponde a qtd de usuários\", () => {\r",
-											"    pm.expect(json.quantidade).to.eql(json.usuarios.length)\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios/?nome=teste",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios",
-										""
-									],
-									"query": [
-										{
-											"key": "nome",
-											"value": "teste"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Lista usuário por email",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 200\", () => {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"quantidade\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida tipo number campo 'quantidade'\", () => {\r",
-											"    pm.expect(json.quantidade).to.be.a(\"number\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo usuários presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"usuarios\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida tipo array campo 'usuarios'\", () => {\r",
-											"    pm.expect(json.usuarios).to.be.a(\"array\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida se campo 'quantidade' corresponde a qtd de usuários\", () => {\r",
-											"    pm.expect(json.quantidade).to.eql(json.usuarios.length)\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios/?email=testando@qa.com.br",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios",
-										""
-									],
-									"query": [
-										{
-											"key": "email",
-											"value": "testando@qa.com.br"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Lista usuário por password",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 200\", () => {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"quantidade\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida tipo number campo 'quantidade'\", () => {\r",
-											"    pm.expect(json.quantidade).to.be.a(\"number\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo usuários presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"usuarios\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida tipo array campo 'usuarios'\", () => {\r",
-											"    pm.expect(json.usuarios).to.be.a(\"array\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida se campo 'quantidade' corresponde a qtd de usuários\", () => {\r",
-											"    pm.expect(json.quantidade).to.eql(json.usuarios.length)\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios/?password=senha",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios",
-										""
-									],
-									"query": [
-										{
-											"key": "password",
-											"value": "senha"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Lista usuário por administrador",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 200\", () => {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"quantidade\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida tipo number campo 'quantidade'\", () => {\r",
-											"    pm.expect(json.quantidade).to.be.a(\"number\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo usuários presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"usuarios\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida tipo array campo 'usuarios'\", () => {\r",
-											"    pm.expect(json.usuarios).to.be.a(\"array\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida se campo 'quantidade' corresponde a qtd de usuários\", () => {\r",
-											"    pm.expect(json.quantidade).to.eql(json.usuarios.length)\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida usuários listados correspondente a query\", () => {\r",
-											"    const statusAdministrador = pm.request.url.query.get(\"administrador\");\r",
-											"    \r",
-											"    json.usuarios.forEach(usuario => {\r",
-											"        pm.expect(usuario.administrador).to.eql(statusAdministrador)\r",
-											"    });\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios/?administrador=true",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios",
-										""
-									],
-									"query": [
-										{
-											"key": "administrador",
-											"value": "true"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Lista usuários com sucesso",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 200\", () => {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"quantidade\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida tipo number campo 'quantidade'\", () => {\r",
-											"    pm.expect(json.quantidade).to.be.a(\"number\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo usuários presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"usuarios\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida tipo array campo 'usuarios'\", () => {\r",
-											"    pm.expect(json.usuarios).to.be.a(\"array\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Validate se campo 'quantidade' corresponde a qtd de usuários\", () => {\r",
-											"    pm.expect(json.quantidade).to.eql(json.usuarios.length)\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios/",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios",
-										""
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Buscar usuário por ID",
-			"item": [
-				{
-					"name": "Error",
-					"item": [
-						{
-							"name": "Id inexistente",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 400\", () => {\r",
-											"    pm.response.to.have.status(400);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida mensagem usuário não encontrado\", () => {\r",
-											"    pm.expect(json.message).to.eql(\"Usuário não encontrado\");\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios/0uxuPY0cbmhpEz1",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios",
-										"0uxuPY0cbmhpEz1"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Success",
-					"item": [
-						{
-							"name": "Id existente",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 200\", () => {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo 'nome' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"nome\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo 'email' presente\", () => {\r",
+											"pm.test(\"Valida se campo 'email' está presente\", () => {\r",
 											"    pm.expect(json).to.have.property(\"email\");\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Valida campo 'password' presente\", () => {\r",
+											"pm.test(\"Valida resultado 'email é obrigatório' no campo 'email'\", () => {\r",
+											"    pm.expect(json.email).to.eql(\"email é obrigatório\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida se campo 'password' está presente\", () => {\r",
 											"    pm.expect(json).to.have.property(\"password\");\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Valida campo '_id' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"_id\");\r",
+											"pm.test(\"Valida resultado 'password é obrigatório' no campo 'email'\", () => {\r",
+											"    pm.expect(json.password).to.eql(\"password é obrigatório\");\r",
 											"});"
 										],
 										"type": "text/javascript",
@@ -827,209 +185,7 @@
 								}
 							],
 							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios/c2kH4hsfBdwem282",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios",
-										"c2kH4hsfBdwem282"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Editar usuário",
-			"item": [
-				{
-					"name": "Error",
-					"item": [
-						{
-							"name": "Editar para email já cadastrado",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 400\", () => {\r",
-											"    pm.response.to.have.status(400);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida mensagem 'Este email já está sendo usado'\", () => {\r",
-											"    pm.expect(json.message).to.eql(\"Este email já está sendo usado\");\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nome\": \"Teste desafio CSF Edit\",\r\n    \"email\": \"Daphney4@hotmail.com\",\r\n    \"password\": \"senhaTesteEdit\",\r\n    \"administrador\": \"true\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios/{{ID_USUARIO_CADASTRADO}}",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios",
-										"{{ID_USUARIO_CADASTRADO}}"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Success",
-					"item": [
-						{
-							"name": "Editar com sucesso",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 200\", () => {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo 'message' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"message\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida valor 'Registro alterado com sucesso\", () => {\r",
-											"    pm.expect(json.message).to.eql(\"Registro alterado com sucesso\");\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"const userToBeEdited = {\r",
-											"    nome: \"Teste desafio CSF Edit\",\r",
-											"    email: \"testandoEdit@gmail.com\",\r",
-											"    password: \"senhaTesteEdit\",\r",
-											"    administrador: \"false\"\r",
-											"}\r",
-											"\r",
-											"pm.environment.set(\"USER\", JSON.stringify(userToBeEdited));"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{{USER}}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/usuarios/{{ID_USUARIO_CADASTRADO}}",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"usuarios",
-										"{{ID_USUARIO_CADASTRADO}}"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Excluir usuário",
-			"item": [
-				{
-					"name": "Success",
-					"item": [
-						{
-							"name": "Excluir com sucesso",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const json = pm.response.json();\r",
-											"\r",
-											"pm.test(\"Valida status code 200\", () => {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida campo 'message' presente\", () => {\r",
-											"    pm.expect(json).to.have.property(\"message\");\r",
-											"});\r",
-											"\r",
-											"pm.test(\"Valida valor 'Registro excluído com sucesso | Nenhum registro excluído\", () => {\r",
-											"    pm.expect(json.message === \"Registro excluído com sucesso\" || json.message === \"Nenhum registro excluído\").to.be.true;\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1041,17 +197,3095 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/usuarios/{{ID_USUARIO_CADASTRADO}}",
+									"raw": "{{BASE_URL}}/login",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
-										"usuarios",
-										"{{ID_USUARIO_CADASTRADO}}"
+										"login"
 									]
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Login sem email no body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Valida status code 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida se campo 'email' está presente\", () => {\r",
+											"    pm.expect(json).to.have.property(\"email\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida resultado 'email é obrigatório' no campo 'email'\", () => {\r",
+											"    pm.expect(json.email).to.eql(\"email é obrigatório\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"password\": \"senha\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login sem password no body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Valida status code 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida se campo 'password' está presente\", () => {\r",
+											"    pm.expect(json).to.have.property(\"password\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida resultado 'password é obrigatório' no campo 'password'\", () => {\r",
+											"    pm.expect(json.password).to.eql(\"password é obrigatório\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"testando@qa.com.br\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login com email vazio",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Valida status code 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida se campo 'email' está presente\", () => {\r",
+											"    pm.expect(json).to.have.property(\"email\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida resultado 'email não pode ficar em branco' no campo 'email'\", () => {\r",
+											"    pm.expect(json.email).to.eql(\"email não pode ficar em branco\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"\",\r\n  \"password\": \"senha\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login com password vazio",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Valida status code 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida se campo 'password' está presente\", () => {\r",
+											"    pm.expect(json).to.have.property(\"password\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida resultado 'password não pode ficar em branco' no campo 'password'\", () => {\r",
+											"    pm.expect(json.password).to.eql(\"password não pode ficar em branco\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"testando@qa.com.br\",\r\n  \"password\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "Login com sucesso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Valida status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida se campo 'message' está presente\", () => {\r",
+											"    pm.expect(json).to.have.property(\"message\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida resultado 'Login realizado com sucesso' no campo 'message'\", () => {\r",
+											"    pm.expect(json.message).to.eql(\"Login realizado com sucesso\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida se campo 'authorization' está presente\", () => {\r",
+											"    pm.expect(json).to.have.property(\"authorization\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valida se campo 'authorization' está preenchido\", () => {\r",
+											"    let token = json.authorization.replace(\"Bearer \", \"\");\r",
+											"\r",
+											"    pm.expect(token).to.not.be.empty;\r",
+											"    pm.environment.set(\"ACCESS_TOKEN\", token);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"testando@qa.com.br\",\r\n  \"password\": \"senha\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Usuários",
+			"item": [
+				{
+					"name": "Cadastrar usuário",
+					"item": [
+						{
+							"name": "Success",
+							"item": [
+								{
+									"name": "Cadastro com sucesso",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 201\", () => {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'message' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"message\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'Cadastro realizado com sucesso' da mensagem\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Cadastro realizado com sucesso\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo '_id' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"_id\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se _id está preenchido\", () => {\r",
+													"    pm.expect(json._id).to.not.be.empty\r",
+													"    pm.environment.set(\"ID_USUARIO_CADASTRADO\", json._id);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const userToBeCreated = {\r",
+													"    nome: \"Teste desafio CSF\",\r",
+													"    email: \"testando@gmail.com\",\r",
+													"    password: \"senhaTeste\",\r",
+													"    administrador: \"true\"\r",
+													"}\r",
+													"\r",
+													"pm.environment.set(\"USER\", JSON.stringify(userToBeCreated));\r",
+													"pm.environment.set(\"EMAIL_USUARIO_CADASTRADO\", JSON.stringify(userToBeCreated.email));"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{{USER}}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Error",
+							"item": [
+								{
+									"name": "Email já cadastrado",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida mensagem 'Este email já está sendo usado'\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Este email já está sendo usado\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\": \"Teste desafio CSF\",\r\n    \"email\": {{EMAIL_USUARIO_CADASTRADO}},\r\n    \"password\": \"senhaTeste\",\r\n    \"administrador\": \"true\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo nome não presente",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'nome' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"nome\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'nome é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.nome).to.eql(\"nome é obrigatório\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"blablabla@teste.com\",\r\n    \"password\": \"senhaTeste\",\r\n    \"administrador\": \"false\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo nome vazio",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'nome' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"nome\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'nome não pode ficar em branco' da mensagem\", () => {\r",
+													"    pm.expect(json.nome).to.eql(\"nome não pode ficar em branco\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\": \"\",\r\n    \"email\": \"blablabla@teste.com\",\r\n    \"password\": \"senhaTeste\",\r\n    \"administrador\": \"false\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo email não presente",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'email' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"email\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'nome é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.email).to.eql(\"email é obrigatório\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\": \"Massa de teste\",\r\n    \"password\": \"senhaTeste\",\r\n    \"administrador\": \"false\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo email vazio",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'email' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"email\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'email não pode ficar em branco' da mensagem\", () => {\r",
+													"    pm.expect(json.email).to.eql(\"email não pode ficar em branco\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\": \"Massa de teste\",\r\n    \"email\": \"\",\r\n    \"password\": \"senhaTeste\",\r\n    \"administrador\": \"false\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo password não presente",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'password' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"password\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'password é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.password).to.eql(\"password é obrigatório\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\": \"Massa de teste\",\r\n    \"email\": \"teste@gmail.com\",\r\n    \"administrador\": \"false\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo password vazio",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'password' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"password\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'password não pode ficar em branco' da mensagem\", () => {\r",
+													"    pm.expect(json.password).to.eql(\"password não pode ficar em branco\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\": \"Massa de teste\",\r\n    \"email\": \"teste@gmail.com\",\r\n    \"password\": \"\",\r\n    \"administrador\": \"false\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo administrador não presente",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'administrador' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"administrador\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'administrador é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.administrador).to.eql(\"administrador é obrigatório\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\": \"Massa de teste\",\r\n    \"email\": \"teste@gmail.com\",\r\n    \"password\": \"senha\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo administrador vazio",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'administrador' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"administrador\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'administrador deve ser 'true' ou 'false'' da mensagem\", () => {\r",
+													"    pm.expect(json.administrador).to.eql(\"administrador deve ser 'true' ou 'false'\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\": \"Massa de teste\",\r\n    \"email\": \"teste@gmail.com\",\r\n    \"password\": \"senha\",\r\n    \"administrador\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo administrador incorreto",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida mensagem de erro 'administrador deve ser 'true' ou 'false''\", () => {\r",
+													"    pm.expect(json.administrador).to.eql(\"administrador deve ser 'true' ou 'false'\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\": \"Teste desafio CSF\",\r\n    \"email\": \"blablabla@teste.com\",\r\n    \"password\": \"senhaTeste\",\r\n    \"administrador\": null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Body vazio",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'nome' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"nome\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'nome é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.nome).to.eql(\"nome é obrigatório\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'email' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"email\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'email é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.email).to.eql(\"email é obrigatório\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'password' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"password\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'password é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.password).to.eql(\"password é obrigatório\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'administrador' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"administrador\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'administrador é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.administrador).to.eql(\"administrador é obrigatório\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Listar usuários cadastrados",
+					"item": [
+						{
+							"name": "Error",
+							"item": [
+								{
+									"name": "Query incorreta",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida mensagem de erro '# não é permitido'\", () => {\r",
+													"    const queries = pm.request.url.query;\r",
+													"    \r",
+													"    queries.each(query => {\r",
+													"        pm.expect(json[query.key]).to.eql(`${query.key} não é permitido`);\r",
+													"    })\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/?name=10&id=11&passwor=senha&emAil=teste@gmail.com&administador=true",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												""
+											],
+											"query": [
+												{
+													"key": "name",
+													"value": "10"
+												},
+												{
+													"key": "id",
+													"value": "11"
+												},
+												{
+													"key": "passwor",
+													"value": "senha"
+												},
+												{
+													"key": "emAil",
+													"value": "teste@gmail.com"
+												},
+												{
+													"key": "administador",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Endereço de email inválido",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida mensagem de erro 'email deve ser um email válido'\", () => {\r",
+													"    pm.expect(json.email).to.eql(\"email deve ser um email válido\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/?email=leonardoferreira032gmail.com",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												""
+											],
+											"query": [
+												{
+													"key": "email",
+													"value": "leonardoferreira032gmail.com"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo administrador incorreto",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida mensagem de erro 'administrador deve ser 'true' ou 'false''\", () => {\r",
+													"    pm.expect(json.administrador).to.eql(\"administrador deve ser 'true' ou 'false'\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/?administrador=null",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												""
+											],
+											"query": [
+												{
+													"key": "administrador",
+													"value": "null"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Success",
+							"item": [
+								{
+									"name": "Lista usuário por Id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"quantidade\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida tipo number campo 'quantidade'\", () => {\r",
+													"    pm.expect(json.quantidade).to.be.a(\"number\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida resultado do campo 'quantidade'\", () => {\r",
+													"    pm.expect(json.quantidade).to.eql(1)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo usuários presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"usuarios\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida tipo array campo 'usuarios'\", () => {\r",
+													"    pm.expect(json.usuarios).to.be.a(\"array\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'quantidade' corresponde a qtd de usuários\", () => {\r",
+													"    pm.expect(json.quantidade).to.eql(json.usuarios.length)\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/?_id={{ID_USUARIO_CADASTRADO}}",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												""
+											],
+											"query": [
+												{
+													"key": "_id",
+													"value": "{{ID_USUARIO_CADASTRADO}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Lista usuário por nome",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"quantidade\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida tipo number campo 'quantidade'\", () => {\r",
+													"    pm.expect(json.quantidade).to.be.a(\"number\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo usuários presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"usuarios\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida tipo array campo 'usuarios'\", () => {\r",
+													"    pm.expect(json.usuarios).to.be.a(\"array\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'quantidade' corresponde a qtd de usuários\", () => {\r",
+													"    pm.expect(json.quantidade).to.eql(json.usuarios.length)\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/?nome=teste",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												""
+											],
+											"query": [
+												{
+													"key": "nome",
+													"value": "teste"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Lista usuário por email",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"quantidade\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida tipo number campo 'quantidade'\", () => {\r",
+													"    pm.expect(json.quantidade).to.be.a(\"number\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo usuários presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"usuarios\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida tipo array campo 'usuarios'\", () => {\r",
+													"    pm.expect(json.usuarios).to.be.a(\"array\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'quantidade' corresponde a qtd de usuários\", () => {\r",
+													"    pm.expect(json.quantidade).to.eql(json.usuarios.length)\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/?email=testando@qa.com.br",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												""
+											],
+											"query": [
+												{
+													"key": "email",
+													"value": "testando@qa.com.br"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Lista usuário por password",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"quantidade\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida tipo number campo 'quantidade'\", () => {\r",
+													"    pm.expect(json.quantidade).to.be.a(\"number\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo usuários presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"usuarios\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida tipo array campo 'usuarios'\", () => {\r",
+													"    pm.expect(json.usuarios).to.be.a(\"array\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'quantidade' corresponde a qtd de usuários\", () => {\r",
+													"    pm.expect(json.quantidade).to.eql(json.usuarios.length)\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/?password=senha",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												""
+											],
+											"query": [
+												{
+													"key": "password",
+													"value": "senha"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Lista usuário por administrador",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"quantidade\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida tipo number campo 'quantidade'\", () => {\r",
+													"    pm.expect(json.quantidade).to.be.a(\"number\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo usuários presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"usuarios\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida tipo array campo 'usuarios'\", () => {\r",
+													"    pm.expect(json.usuarios).to.be.a(\"array\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'quantidade' corresponde a qtd de usuários\", () => {\r",
+													"    pm.expect(json.quantidade).to.eql(json.usuarios.length)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida usuários listados correspondente a query\", () => {\r",
+													"    const statusAdministrador = pm.request.url.query.get(\"administrador\");\r",
+													"    \r",
+													"    json.usuarios.forEach(usuario => {\r",
+													"        pm.expect(usuario.administrador).to.eql(statusAdministrador)\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/?administrador=true",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												""
+											],
+											"query": [
+												{
+													"key": "administrador",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Lista usuários com sucesso",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"quantidade\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida tipo number campo 'quantidade'\", () => {\r",
+													"    pm.expect(json.quantidade).to.be.a(\"number\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo usuários presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"usuarios\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida tipo array campo 'usuarios'\", () => {\r",
+													"    pm.expect(json.usuarios).to.be.a(\"array\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate se campo 'quantidade' corresponde a qtd de usuários\", () => {\r",
+													"    pm.expect(json.quantidade).to.eql(json.usuarios.length)\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Buscar usuário por ID",
+					"item": [
+						{
+							"name": "Error",
+							"item": [
+								{
+									"name": "Id inexistente",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida mensagem usuário não encontrado\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Usuário não encontrado\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/0uxuPY0cbmhpEz1",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												"0uxuPY0cbmhpEz1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Success",
+							"item": [
+								{
+									"name": "Id existente",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'nome' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"nome\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'email' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"email\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'password' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"password\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo '_id' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"_id\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/c2kH4hsfBdwem282",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												"c2kH4hsfBdwem282"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Editar usuário",
+					"item": [
+						{
+							"name": "Error",
+							"item": [
+								{
+									"name": "Editar para email já cadastrado",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida mensagem 'Este email já está sendo usado'\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Este email já está sendo usado\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\": \"Teste desafio CSF Edit\",\r\n    \"email\": \"Daphney4@hotmail.com\",\r\n    \"password\": \"senhaTesteEdit\",\r\n    \"administrador\": \"true\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/{{ID_USUARIO_CADASTRADO}}",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												"{{ID_USUARIO_CADASTRADO}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Success",
+							"item": [
+								{
+									"name": "Editar com sucesso",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'message' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"message\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'Registro alterado com sucesso\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Registro alterado com sucesso\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const userToBeEdited = {\r",
+													"    nome: \"Teste desafio CSF Edit\",\r",
+													"    email: \"testandoEdit@gmail.com\",\r",
+													"    password: \"senhaTesteEdit\",\r",
+													"    administrador: \"false\"\r",
+													"}\r",
+													"\r",
+													"pm.environment.set(\"USER\", JSON.stringify(userToBeEdited));"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{{USER}}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/{{ID_USUARIO_CADASTRADO}}",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												"{{ID_USUARIO_CADASTRADO}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Excluir usuário",
+					"item": [
+						{
+							"name": "Success",
+							"item": [
+								{
+									"name": "Excluir com sucesso",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'message' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"message\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'Registro excluído com sucesso | Nenhum registro excluído\", () => {\r",
+													"    pm.expect(json.message === \"Registro excluído com sucesso\" || json.message === \"Nenhum registro excluído\").to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/usuarios/{{ID_USUARIO_CADASTRADO}}",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"usuarios",
+												"{{ID_USUARIO_CADASTRADO}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Produtos",
+			"item": [
+				{
+					"name": "Cadastrar produto",
+					"item": [
+						{
+							"name": "Success",
+							"item": [
+								{
+									"name": "Login com sucesso",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'message' está presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"message\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida resultado 'Login realizado com sucesso' no campo 'message'\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Login realizado com sucesso\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'authorization' está presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"authorization\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'authorization' está preenchido\", () => {\r",
+													"    let token = json.authorization.replace(\"Bearer \", \"\");\r",
+													"\r",
+													"    pm.expect(token).to.not.be.empty;\r",
+													"    pm.environment.set(\"ACCESS_TOKEN\", token);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"email\": \"testando@qa.com.br\",\r\n  \"password\": \"senha\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/login",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Cadastra produto com sucesso",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const productToBeCreated = {\r",
+													"    nome: `Lenovo M${parseInt(Math.random() * 9999)}`,\r",
+													"    preco: 10000,\r",
+													"    descricao: \"Computador\",\r",
+													"    quantidade: 300\r",
+													"}\r",
+													"\r",
+													"pm.environment.set(\"PRODUCT\", JSON.stringify(productToBeCreated));"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 201\", () => {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'message' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"message\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'Cadastro realizado com sucesso' da mensagem\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Cadastro realizado com sucesso\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo '_id' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"_id\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se _id está preenchido\", () => {\r",
+													"    pm.expect(json._id).to.not.be.empty\r",
+													"    pm.environment.set(\"ID_PRODUTO_CADASTRADO\", json._id);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{ACCESS_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{{PRODUCT}}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Error",
+							"item": [
+								{
+									"name": "Token de acesso ausente",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 401\", () => {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'message' está presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"message\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida resultado da mensagem de token ausente\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"nome\": \"Logitech MX Vertical\",\r\n  \"preco\": 470,\r\n  \"descricao\": \"Mouse\",\r\n  \"quantidade\": 381\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Token de acesso inválido",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 401\", () => {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'message' está presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"message\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida resultado da mensagem de token ausente\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZ1bGFub0BxYS5jb20iLCJwYXNzd29yZCI6InRlc3RlIiwiaWF0IjoxNTg5NzU4NzQ2LCJleHAiOjE1ODk3Njg3NDZ9.B6TASHV8k9xBerz4NSeFBlAZGSDhZlqESt767M0567I",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"nome\": \"Logitech MX Vertical\",\r\n  \"preco\": 470,\r\n  \"descricao\": \"Mouse\",\r\n  \"quantidade\": 381\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Nome existente",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'message' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"message\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'Já existe produto com esse nome' da mensagem\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Já existe produto com esse nome\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{ACCESS_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{{PRODUCT}}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login adm false",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'message' está presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"message\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida resultado 'Login realizado com sucesso' no campo 'message'\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Login realizado com sucesso\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'authorization' está presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"authorization\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'authorization' está preenchido\", () => {\r",
+													"    let token = json.authorization.replace(\"Bearer \", \"\");\r",
+													"\r",
+													"    pm.expect(token).to.not.be.empty;\r",
+													"    pm.environment.set(\"ACCESS_TOKEN\", token);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"email\": \"teste_adm_false@yahoo.com.br\",\r\n  \"password\": \"senha\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/login",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Cadastra produto adm false",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 403\", () => {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'message' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"message\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'Rota exclusiva para administradores' da mensagem\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Rota exclusiva para administradores\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{ACCESS_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{{PRODUCT}}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login adm true",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'message' está presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"message\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida resultado 'Login realizado com sucesso' no campo 'message'\", () => {\r",
+													"    pm.expect(json.message).to.eql(\"Login realizado com sucesso\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'authorization' está presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"authorization\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida se campo 'authorization' está preenchido\", () => {\r",
+													"    let token = json.authorization.replace(\"Bearer \", \"\");\r",
+													"\r",
+													"    pm.expect(token).to.not.be.empty;\r",
+													"    pm.environment.set(\"ACCESS_TOKEN\", token);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"email\": \"testando@qa.com.br\",\r\n  \"password\": \"senha\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/login",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Nome não presente",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'nome' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"nome\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'nome é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.nome).to.eql(\"nome é obrigatório\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{ACCESS_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"preco\": 470,\r\n  \"descricao\": \"Mouse\",\r\n  \"quantidade\": 381\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo nome vazio",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'nome' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"nome\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'nome não pode ficar em branco' da mensagem\", () => {\r",
+													"    pm.expect(json.nome).to.eql(\"nome não pode ficar em branco\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{ACCESS_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"nome\": \"\",\r\n  \"preco\": 470,\r\n  \"descricao\": \"Mouse\",\r\n  \"quantidade\": 381\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Preco não presente",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'preco' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"preco\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'preco é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.preco).to.eql(\"preco é obrigatório\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{ACCESS_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"nome\": \"\",\r\n  \"descricao\": \"Mouse\",\r\n  \"quantidade\": 381\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo preco incorreto",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'preco' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"preco\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'preco deve ser um número' da mensagem\", () => {\r",
+													"    pm.expect(json.preco).to.eql(\"preco deve ser um número\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{ACCESS_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"nome\": \"Produto de teste\",\r\n  \"preco\": \"\",\r\n  \"descricao\": \"Mouse\",\r\n  \"quantidade\": 381\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Descricao não presente",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'descricao' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"descricao\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'descricao é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.descricao).to.eql(\"descricao é obrigatório\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{ACCESS_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"nome\": \"Logitech MX Vertical\",\r\n  \"preco\": 470,\r\n  \"quantidade\": 381\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo descricao vazio",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'descricao' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"descricao\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'descricao não pode ficar em branco' da mensagem\", () => {\r",
+													"    pm.expect(json.descricao).to.eql(\"descricao não pode ficar em branco\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{ACCESS_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"nome\": \"Logitech MX Vertical\",\r\n  \"preco\": 470,\r\n  \"descricao\": \"\",\r\n  \"quantidade\": 381\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Quantidade não presente",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"quantidade\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'quantidade é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.quantidade).to.eql(\"quantidade é obrigatório\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{ACCESS_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"nome\": \"Logitech MX Vertical\",\r\n  \"preco\": 470,\r\n  \"descricao\": \"Mouse\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Campo quantidade incorreto",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"quantidade\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'quantidade deve ser um número' da mensagem\", () => {\r",
+													"    pm.expect(json.quantidade).to.eql(\"quantidade deve ser um número\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{ACCESS_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"nome\": \"Logitech MX Vertical\",\r\n  \"preco\": 470,\r\n  \"descricao\": \"Mouse\",\r\n  \"quantidade\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Body vazio",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const json = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Valida status code 400\", () => {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'nome' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"nome\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'nome é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.nome).to.eql(\"nome é obrigatório\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'preco' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"preco\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'preco é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.preco).to.eql(\"preco é obrigatório\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'descricao' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"descricao\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'descricao é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.descricao).to.eql(\"descricao é obrigatório\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
+													"    pm.expect(json).to.have.property(\"quantidade\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Valida valor 'quantidade é obrigatório' da mensagem\", () => {\r",
+													"    pm.expect(json.quantidade).to.eql(\"quantidade é obrigatório\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{ACCESS_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/produtos",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				}
@@ -1193,6 +3427,315 @@
 							"path": [
 								"usuarios",
 								"{{ID_USUARIO_CADASTRADO}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Valida status code 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida se campo 'message' está presente\", () => {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida resultado 'Login realizado com sucesso' no campo 'message'\", () => {\r",
+									"    pm.expect(json.message).to.eql(\"Login realizado com sucesso\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida se campo 'authorization' está presente\", () => {\r",
+									"    pm.expect(json).to.have.property(\"authorization\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida se campo 'authorization' está preenchido\", () => {\r",
+									"    let token = json.authorization.replace(\"Bearer \", \"\");\r",
+									"\r",
+									"    pm.expect(token).to.not.be.empty;\r",
+									"    pm.environment.set(\"ACCESS_TOKEN\", token);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const userCreated = JSON.parse(pm.environment.get(\"USER\"));\r",
+									"const login = {\r",
+									"    email: userCreated.email,\r",
+									"    password: userCreated.password\r",
+									"};\r",
+									"\r",
+									"pm.variables.set(\"login\", JSON.stringify(login))"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{login}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar produto",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const productToBeCreated = {\r",
+									"    nome: `Logitech M${parseInt(Math.random() * 9999)}`,\r",
+									"    preco: 420,\r",
+									"    descricao: \"Mouse\",\r",
+									"    quantidade: 300\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"PRODUCT\", JSON.stringify(productToBeCreated));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Valida status code 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida campo 'message' presente\", () => {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida valor 'Cadastro realizado com sucesso' da mensagem\", () => {\r",
+									"    pm.expect(json.message).to.eql(\"Cadastro realizado com sucesso\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida campo '_id' presente\", () => {\r",
+									"    pm.expect(json).to.have.property(\"_id\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida se _id está preenchido\", () => {\r",
+									"    pm.expect(json._id).to.not.be.empty\r",
+									"    pm.environment.set(\"ID_PRODUTO_CADASTRADO\", json._id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{PRODUCT}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/produtos",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca produto após cadastro",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();\r",
+									"const productCreated = JSON.parse(pm.environment.get(\"PRODUCT\"));\r",
+									"\r",
+									"pm.test(\"Valida status code 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida campo 'nome' presente\", () => {\r",
+									"    pm.expect(json).to.have.property(\"nome\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida se valor campo nome corresponde ao cadastrado\", () => {\r",
+									"    pm.expect(json.nome).to.eql(productCreated.nome);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida campo 'preco' presente\", () => {\r",
+									"    pm.expect(json).to.have.property(\"preco\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida se valor campo preco corresponde ao cadastrado\", () => {\r",
+									"    pm.expect(json.preco).to.eql(productCreated.preco);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida campo 'descricao' presente\", () => {\r",
+									"    pm.expect(json).to.have.property(\"descricao\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida se valor campo descricao corresponde ao cadastrado\", () => {\r",
+									"    pm.expect(json.descricao).to.eql(productCreated.descricao);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida campo 'quantidade' presente\", () => {\r",
+									"    pm.expect(json).to.have.property(\"quantidade\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida se valor campo quantidade corresponde ao cadastrado\", () => {\r",
+									"    pm.expect(json.quantidade).to.eql(productCreated.quantidade);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida campo '_id' presente\", () => {\r",
+									"    pm.expect(json).to.have.property(\"_id\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida se valor campo _id corresponde ao cadastrado\", () => {\r",
+									"    pm.expect(json._id).to.eql(pm.environment.get(\"ID_PRODUTO_CADASTRADO\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/produtos/{{ID_PRODUTO_CADASTRADO}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"produtos",
+								"{{ID_PRODUTO_CADASTRADO}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Valida status code 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida campo 'message' presente\", () => {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Valida valor 'Registro excluído com sucesso'\", () => {\r",
+									"    pm.expect(json.message).to.eql(\"Registro excluído com sucesso\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/produtos/{{ID_PRODUTO_CADASTRADO}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"produtos",
+								"{{ID_PRODUTO_CADASTRADO}}"
 							]
 						}
 					},
